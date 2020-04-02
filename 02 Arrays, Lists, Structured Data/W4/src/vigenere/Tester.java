@@ -32,6 +32,7 @@ public class Tester {
 		System.out.println(vi.encrypt(text));
 		System.out.println("\n"+vi.decrypt(vi.encrypt(text)));
 		
+		
 
 	}
 
