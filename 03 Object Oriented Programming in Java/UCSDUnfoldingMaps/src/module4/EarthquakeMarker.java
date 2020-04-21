@@ -7,7 +7,7 @@ import processing.core.PGraphics;
 /** Implements a visual marker for earthquakes on an earthquake map
  * 
  * @author UC San Diego Intermediate Software Development MOOC team
- * @author Your name here
+ * @author Jamie Lee
  *
  */
 public abstract class EarthquakeMarker extends SimplePointMarker
@@ -81,6 +81,24 @@ public abstract class EarthquakeMarker extends SimplePointMarker
 	// You might find the getters below helpful.
 	private void colorDetermine(PGraphics pg) {
 		//TODO: Implement this method
+		int yellow = pg.color(255, 255, 0);
+		int blue = pg.color(0, 0, 255);
+		int red = pg.color(255, 0, 0);
+		
+		float depth = getDepth();
+		if (depth < THRESHOLD_INTERMEDIATE){
+			// yellow for shallow earthquake
+			pg.fill(yellow);
+		}
+		else if(depth >= THRESHOLD_INTERMEDIATE && depth < THRESHOLD_DEEP){
+			// blue for intermediate earthquake
+			pg.fill(blue);
+		}
+		else if(depth >= THRESHOLD_DEEP){
+			// red for deep earthquake
+			pg.fill(red);
+		}
+	
 	}
 	
 	
