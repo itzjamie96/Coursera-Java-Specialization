@@ -1,8 +1,11 @@
 package module5;
 
+import java.util.List;
+
 import de.fhpotsdam.unfolding.data.Feature;
 import de.fhpotsdam.unfolding.data.PointFeature;
 import de.fhpotsdam.unfolding.geo.Location;
+import de.fhpotsdam.unfolding.marker.Marker;
 import de.fhpotsdam.unfolding.marker.SimplePointMarker;
 import processing.core.PConstants;
 import processing.core.PGraphics;
@@ -10,13 +13,13 @@ import processing.core.PGraphics;
 /** Implements a visual marker for cities on an earthquake map
  * 
  * @author UC San Diego Intermediate Software Development MOOC team
- * @author Your name here
+ * @author Jamie Lee
  *
  */
 // TODO: Change SimplePointMarker to CommonMarker as the very first thing you do 
 // in module 5 (i.e. CityMarker extends CommonMarker).  It will cause an error.
 // That's what's expected.
-public class CityMarker extends SimplePointMarker {
+public class CityMarker extends CommonMarker {
 	
 	public static int TRI_SIZE = 5;  // The size of the triangle marker
 	
@@ -34,8 +37,9 @@ public class CityMarker extends SimplePointMarker {
 	
 	/**
 	 * Implementation of method to draw marker on the map.
+	 * implemented methods should have the same name
 	 */
-	public void draw(PGraphics pg, float x, float y) {
+	public void drawMarker(PGraphics pg, float x, float y) {
 		// Save previous drawing style
 		pg.pushStyle();
 		
@@ -52,6 +56,26 @@ public class CityMarker extends SimplePointMarker {
 	{
 		
 		// TODO: Implement this method
+		int popupColor = pg.color(253, 237, 44);
+		int black = pg.color(0, 0, 0);
+		
+		int fontSize = 12;
+		
+		String text = String.format("City: %s, Country: %s, Population: %.2f Million",
+				getCity(), getCountry(), getPopulation());
+		float textWidth = pg.textWidth(text);
+		
+		
+		// popup box
+		pg.fill(popupColor);
+		pg.rect(x + TRI_SIZE, (y + TRI_SIZE) - fontSize, textWidth + 2, 14);
+
+		// popup text
+		pg.fill(black);
+		pg.stroke(black);
+		pg.textSize(fontSize);
+		pg.text(text, x + TRI_SIZE, y + TRI_SIZE);
+		
 	}
 	
 	
@@ -72,4 +96,5 @@ public class CityMarker extends SimplePointMarker {
 	{
 		return Float.parseFloat(getStringProperty("population"));
 	}
+
 }
