@@ -17,7 +17,7 @@ public class OfflineMapApp extends PApplet {
 
 		map = new UnfoldingMap(this, new MBTilesMapProvider(mbTilesString));
 		MapUtils.createDefaultEventDispatcher(this, map);
-		map.setZoomRange(1, 3);
+
 	}
 
 	public void draw() {

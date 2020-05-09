@@ -2,6 +2,7 @@ package module6;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import de.fhpotsdam.unfolding.UnfoldingMap;
@@ -21,8 +22,8 @@ import processing.core.PApplet;
 /** EarthquakeCityMap
  * An application with an interactive map displaying earthquake data.
  * Author: UC San Diego Intermediate Software Development MOOC team
- * @author Your name here
- * Date: July 17, 2015
+ * @author Jamie Lee
+ * Date: May 09, 2020
  * */
 public class EarthquakeCityMap extends PApplet {
 	
@@ -36,7 +37,7 @@ public class EarthquakeCityMap extends PApplet {
 	private static final long serialVersionUID = 1L;
 
 	// IF YOU ARE WORKING OFFILINE, change the value of this variable to true
-	private static final boolean offline = false;
+	private static final boolean offline = true;
 	
 	/** This is where to find the local tiles, for working without an Internet connection */
 	public static String mbTilesString = "blankLight-1-3.mbtiles";
@@ -85,7 +86,7 @@ public class EarthquakeCityMap extends PApplet {
 		//earthquakesURL = "test2.atom";
 		
 		// Uncomment this line to take the quiz
-		//earthquakesURL = "quiz2.atom";
+//		earthquakesURL = "quiz2.atom";
 		
 		
 		// (2) Reading in earthquake data and geometric properties
@@ -117,6 +118,7 @@ public class EarthquakeCityMap extends PApplet {
 
 	    // could be used for debugging
 	    printQuakes();
+//	    sortAndPrint(20);
 	 		
 	    // (3) Add markers to map
 	    //     NOTE: Country markers are not added to the map.  They are used
@@ -139,6 +141,22 @@ public class EarthquakeCityMap extends PApplet {
 	// TODO: Add the method:
 	//   private void sortAndPrint(int numToPrint)
 	// and then call that method from setUp
+	private void sortAndPrint(int numToPrint) {
+		List<EarthquakeMarker> quakeMarkerList = new ArrayList<EarthquakeMarker>();
+		EarthquakeMarker eqm;
+		for (Marker m : quakeMarkers) {
+			eqm = (EarthquakeMarker)m;
+			quakeMarkerList.add(eqm);
+		}
+
+		Collections.sort(quakeMarkerList);
+
+		int actualNumToPrint = (numToPrint >= quakeMarkerList.size() ? quakeMarkerList.size() : numToPrint); 
+		for (int index = 0; index < actualNumToPrint; index++) {
+			System.out.println(quakeMarkerList.get(index));
+		}
+
+	}
 	
 	/** Event handler that gets called automatically when the 
 	 * mouse moves.
