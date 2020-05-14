@@ -67,7 +67,27 @@ public abstract class Document {
 		// TODO: Implement this method so that you can call it from the 
 	    // getNumSyllables method in BasicDocument (module 2) and 
 	    // EfficientDocument (module 3).
-	    return 0;
+		int numSyllables = 0;
+		boolean newSyllable = true;
+		String vowels = "aeiouy";
+		char[] cArray = word.toCharArray();
+		for (int i = 0; i < cArray.length; i++)
+		{
+		    if (i == cArray.length-1 && Character.toLowerCase(cArray[i]) == 'e' 
+		    		&& newSyllable && numSyllables > 0) {
+                numSyllables--;
+            }
+		    if (newSyllable && vowels.indexOf(Character.toLowerCase(cArray[i])) >= 0) {
+				newSyllable = false;
+				numSyllables++;
+			}
+			else if (vowels.indexOf(Character.toLowerCase(cArray[i])) < 0) {
+				newSyllable = true;
+			}
+		}
+		//System.out.println( "found " + numSyllables);
+		return numSyllables;
+
 	}
 	
 	/** A method for testing
@@ -86,6 +106,12 @@ public abstract class Document {
 		int syllFound = doc.getNumSyllables();
 		int wordsFound = doc.getNumWords();
 		int sentFound = doc.getNumSentences();
+		
+//		System.out.println("words found: "+wordsFound);
+//		System.out.println("sentences found: "+sentFound);
+//		System.out.println("syllables found: "+syllFound);
+	
+		
 		if (syllFound != syllables) {
 			System.out.println("\nIncorrect number of syllables.  Found " + syllFound 
 					+ ", expected " + syllables);
@@ -108,6 +134,11 @@ public abstract class Document {
 		else {
 			System.out.println("FAILED.\n");
 		}
+		
+//		double score = doc.getFleschScore();
+//		System.out.printf("%.2f",score);
+//		System.out.println();
+		
 		return passed;
 	}
 	
@@ -130,9 +161,13 @@ public abstract class Document {
 	/** return the Flesch readability score of this document */
 	public double getFleschScore()
 	{
-	    // TODO: You will play with this method in week 1, and 
-		// then implement it in week 2
-	    return 0.0;
+		double syllables = getNumSyllables();
+		double words = getNumWords();
+		double sentences = getNumSentences();
+		
+		double score = 206.835 - 1.015*(words/sentences) - 84.6*(syllables/words);
+//		System.out.println(score);
+	    return score;
 	}
 	
 	
