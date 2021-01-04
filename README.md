@@ -1,2 +1,3 @@
-# Coursera-Java-Specialization
-Coursera: Object Oriented Programming in Java
+# :coffee: ​Studying Java :coffee:
+
+:fire::fire::fire::fire::fire::fire:
