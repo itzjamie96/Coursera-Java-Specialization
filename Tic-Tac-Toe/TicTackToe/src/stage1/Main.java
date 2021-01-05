@@ -100,15 +100,19 @@ public class Main {
 
     public static String checkWinner(String[][] table) {
 
+        String currentUser;
+        // flag to check if there is a winner
+        boolean flag;
+
         // check horizontally
         for (int i = 0; i < 3; i++){
 
             // flag to check if there is a winner
-            boolean flag = true;
+            flag = true;
 
             // check with user at index 0 of each row
             if (!table[i][0].equals("_")) {
-                String currentUser = table[i][0];
+                currentUser = table[i][0];
                 for (int j = 1; j < 3; j++) {
                     if (!currentUser.equals(table[i][j])) {
                         flag = false;
@@ -123,15 +127,30 @@ public class Main {
             }
         }
 
+        // check diagonally
+        // top left -> down right
+        if (!table[0][0].equals("_")) {
+            currentUser = table[0][0];
+            if (currentUser.equals(table[1][1]) && currentUser.equals(table[2][2])) {
+                return currentUser + " wins";
+            }
+        }
+        if (!table[0][2].equals("_")) {
+            currentUser = table[0][2];
+            if (currentUser.equals(table[1][1]) && currentUser.equals(table[2][0])) {
+                return currentUser + " wins";
+            }
+        }
+
         // check vertically
         for (int i = 0; i < 3; i++){
 
             // flag to check if there is a winner
-            boolean flag = true;
+            flag = true;
 
             // check with user at index 0 of each col
             if (!table[0][i].equals("_")) {
-                String currentUser = table[0][i];
+                currentUser = table[0][i];
 
                 for (int j = 1; j < 3; j++) {
                     if (!currentUser.equals(table[j][i])) {
@@ -144,6 +163,7 @@ public class Main {
                 }
             }
         }
+
 
         // there was no winner, return draw
         return "Draw";
