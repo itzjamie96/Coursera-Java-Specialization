@@ -47,18 +47,16 @@ public class Main {
 
             // try - catch phrase used to check that the player entered valid coordinates
             try {
-                playerX = sc.nextInt() - 1;
-                playerY = sc.nextInt() - 1;
 
-                if (table[playerX][playerY] == 0) {
-                    table[playerX][playerY] = 1;
+                Coordinate playerXY = new Coordinate(sc.nextInt() - 1, sc.nextInt() - 1);
 
-                    // add coordinates in the visited list
-                    Coordinate playerXY = new Coordinate(playerX, playerY);
+                if (!contains(visited, playerXY)) {
+                    table[playerXY.getX()][playerXY.getY()] = 1;
                     visited.add(playerXY);
-
                     cnt++;
                     printTable(table);
+                } else {
+                    continue;
                 }
 
                 // check for a winner after the player's turn
@@ -86,8 +84,9 @@ public class Main {
                 // get a random Coordinate that has not been visited yet
                 while (true) {
                     Coordinate randomXY = new Coordinate(random.nextInt(3), random.nextInt(3));
-                    if (!visited.contains(randomXY)) {
+                    if (!contains(visited, randomXY)) {
                         table[randomXY.getX()][randomXY.getY()] = -1;
+                        visited.add(randomXY);
                         cnt++;
                         printTable(table);
                         break;
@@ -111,6 +110,8 @@ public class Main {
             } catch (InputMismatchException e) {
                 System.out.println("You should enter numbers!");
                 sc.nextLine();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         sc.close();
@@ -136,15 +137,27 @@ public class Main {
         System.out.println("---------");
     }
 
+    public static boolean contains(List<Coordinate> visited, Coordinate xy) {
+
+        for (Coordinate c : visited) {
+            if (c.getX() == xy.getX() && c.getY() == xy.getY()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static String checkWinner(int[][] table) {
 
-        int rowSum = 0, colSum = 0, leftSum = 0, rightSum = 0;
+        int leftSum = 0, rightSum = 0;
         for (int i = 0; i < 3; i++) {
+            int rowSum = 0, colSum = 0;
             for (int j = 0; j < 3; j++) {
                 rowSum += table[i][j];
                 colSum += table[j][i];
                 rightSum += table[j][2 - j];
             }
+            rightSum = 0;
             leftSum += table[i][i];
 
             if (rowSum == 3 || colSum == 3 || leftSum == 3 || rightSum == 3) {
@@ -152,6 +165,7 @@ public class Main {
             } else if (rowSum == -3 || colSum == -3 || leftSum == -3 || rightSum == -3) {
                 return "O wins";
             }
+            rightSum = 0;
         }
         return "Draw";
 
